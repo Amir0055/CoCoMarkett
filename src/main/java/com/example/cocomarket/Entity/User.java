@@ -25,6 +25,7 @@ public class User {
     private String Assosiation_info;
     private String FilesImg;
     private String img;
+
     @OneToMany(mappedBy = "userQuestions" ,cascade = CascadeType.ALL)
     private Set<Question> Questions;
     @OneToMany(cascade = CascadeType.ALL)
@@ -35,8 +36,10 @@ public class User {
     private Set<Shop> Shops;
     @OneToMany(mappedBy = "userKoffa")
     private Set<Koffa> Koffas;
-    @OneToOne(cascade = CascadeType.ALL)
-    private CART cart;
+
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
+    private CART user_cart;
+
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Raiting_Product> raiting_products;
     @OneToMany(cascade = CascadeType.ALL)

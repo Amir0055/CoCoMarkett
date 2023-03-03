@@ -1,27 +1,50 @@
 package com.example.cocomarket.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 
 @Entity
 @Getter
 @Setter
-@ToString
+//@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CART {
+
+//@Embeddable
+
+public class CART implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @NonNull
     private  Integer id;
     private Integer nbProd;
-    private Float totPrice;
-    @OneToMany (cascade = CascadeType.ALL)
-    private Set<Produit> Product_Cart;
-    @OneToOne (mappedBy = "Commande_cart")
-    private Commande ommande_cart;
+    private Float total_price;
+    private Float total_weight;
+
+    /*@ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "table_associative",
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private Set<Produit> items;*/
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+    @JsonIgnore
+    private Set<Produit_Cart> Items;
+
+
+    @OneToMany (mappedBy = "Commande_cart")
+    private Set<Commande> commande_cart;
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    private User user ;
+
 
 }
