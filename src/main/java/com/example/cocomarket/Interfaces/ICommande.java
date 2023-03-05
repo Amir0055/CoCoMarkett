@@ -21,5 +21,5 @@ public interface ICommande {
     public Commande Afficher_Commandes(Integer idCommande);
 
 
-    public Livraison affectercamandtolivaison(Integer id_c,Livraison l);
+    //public Livraison affectercamandtolivaison(Integer id_c,Livraison l);
 }

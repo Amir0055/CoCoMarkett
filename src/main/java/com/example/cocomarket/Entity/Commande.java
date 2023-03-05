@@ -58,10 +58,10 @@ public class Commande {
     private Set<Livraison> Livraison_commande;
 
 
-    @ManyToOne
+   /* @ManyToOne
     @JsonIgnore
     @ToString.Exclude
-    private Livraison Livraison_commande;
+    private Livraison Livraison_commande;*/
 
 
 }

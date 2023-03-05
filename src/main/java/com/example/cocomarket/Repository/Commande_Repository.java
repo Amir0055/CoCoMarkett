@@ -14,7 +14,7 @@ import java.util.List;
 public interface Commande_Repository extends JpaRepository<Commande, Integer> {
 
 
-    @Query("SELECT c FROM Commande c where (c.id =:idcommand) and (c.Affected=false) ")
-    public Commande getnotaffectedCommand(@Param("idcommand") Integer idcommande);
+    /*@Query("SELECT c FROM Commande c where (c.id =:idcommand) and (c.Affected=false) ")
+    public Commande getnotaffectedCommand(@Param("idcommand") Integer idcommande);*/
 
 }

@@ -1,6 +1,8 @@
 package com.example.cocomarket.Controller;
 
 import com.example.cocomarket.Entity.Commande;
+import com.example.cocomarket.Entity.Livraison;
+import com.example.cocomarket.Interfaces.ICommande;
 import com.example.cocomarket.Services.Commande_Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,8 @@ public class CommandeController {
 
     @Autowired
     Commande_Service Cr ;
-
+    @Autowired
+    ICommande ic;
 
     @PostMapping("/Confirm-Commande/{idcart}")
     public Commande confirm_Commande(@RequestBody Commande c,
