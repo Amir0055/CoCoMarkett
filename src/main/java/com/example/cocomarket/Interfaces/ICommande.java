@@ -4,6 +4,8 @@ import com.example.cocomarket.Entity.Commande;
 
 import java.util.List;
 
+import com.example.cocomarket.Entity.Livraison;
+
 public interface ICommande {
 
     public Commande Confirmer_Commande(Commande commande,Integer idCart) ;
@@ -19,4 +21,5 @@ public interface ICommande {
     public Commande Afficher_Commandes(Integer idCommande);
 
 
+    public Livraison affectercamandtolivaison(Integer id_c,Livraison l);
 }

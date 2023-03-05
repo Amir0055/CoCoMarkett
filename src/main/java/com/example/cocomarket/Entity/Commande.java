@@ -3,6 +3,9 @@ package com.example.cocomarket.Entity;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDate;
+import java.util.Set;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -51,6 +54,8 @@ public class Commande {
     @JsonIgnore
     @ToString.Exclude
     private CART Commande_cart;
+@ManyToMany(cascade = CascadeType.ALL)
+    private Set<Livraison> Livraison_commande;
 
 
     @ManyToOne
