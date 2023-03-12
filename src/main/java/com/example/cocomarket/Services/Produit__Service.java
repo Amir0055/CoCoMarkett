@@ -7,4 +7,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Produit__Service implements IProduit {
+
+
+
+
 }

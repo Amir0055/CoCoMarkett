@@ -4,6 +4,7 @@ import com.example.cocomarket.Entity.MSG;
 import com.example.cocomarket.Interfaces.IMsg;
 import com.example.cocomarket.Repository.Msg__Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 
@@ -14,6 +15,9 @@ import java.util.Optional;
 public class Msg__Service implements IMsg {
     @Autowired
     Msg__Repository msgRepository;
+
+
+
 
     @Override
     public List<MSG> getAllMsgs() {
@@ -35,12 +39,6 @@ public class Msg__Service implements IMsg {
         msgRepository.deleteById(id);
     }
 
-
-
-    @Override
-    public MSG addMSG(MSG msg) {
-        return msgRepository.save(msg);
-    }
 
 
 

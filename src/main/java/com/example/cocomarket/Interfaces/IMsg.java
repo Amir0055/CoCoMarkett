@@ -13,7 +13,4 @@ public interface IMsg {
     public void deleteMsg(Integer id);
 
 
-
-
-    MSG addMSG(MSG msg);
 }

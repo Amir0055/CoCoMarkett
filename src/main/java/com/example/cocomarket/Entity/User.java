@@ -25,10 +25,10 @@ public class User {
     private String Assosiation_info;
     private String FilesImg;
     private String img;
-    @OneToMany(mappedBy = "userQuestions" ,cascade = CascadeType.ALL)
-    private Set<Question> Questions;
+    @OneToMany(mappedBy = "userPublication" ,cascade = CascadeType.ALL)
+    private Set<Publication> publications;
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<Response> Responses;
+    private Set<Comentaire> respons;
     @OneToMany(cascade = CascadeType.ALL)
     private Set<MSG> MSGs;
     @OneToMany(mappedBy = "userShop")
