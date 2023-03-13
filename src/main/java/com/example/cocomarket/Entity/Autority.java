@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Autority {
@@ -14,6 +14,7 @@ public class Autority {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @NonNull
     private Integer id;
+    @ToString.Include
     private String name;
     // @ManyToMany(mappedBy = "autoritys")
     // private Set<Roles> RolesAutority;
