@@ -23,7 +23,8 @@ public class CART implements Serializable {
     @NonNull
     private  Integer id;
     private Integer nbProd;
-    private Float total_price;
+    private Long total_price;
+    private Float total_volume ;
     private Float total_weight;
 
     /*@ManyToMany(cascade = CascadeType.ALL)
@@ -43,7 +44,6 @@ public class CART implements Serializable {
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JsonIgnore
     private User user ;
 
 

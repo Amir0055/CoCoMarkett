@@ -25,7 +25,6 @@ public class Produit_Cart {
     @ManyToOne
     private Produit produit ;
 
-
     public Produit_Cart(Produit product, int i) {
     }
 }

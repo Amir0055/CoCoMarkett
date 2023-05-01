@@ -3,9 +3,11 @@ package com.example.cocomarket.Entity;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.time.LocalDate;
+
+import java.util.Objects;
 import java.util.Set;
 
+import com.lowagie.text.List;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,9 +22,9 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Commande {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NonNull
-    private Integer id;
+    private int id;
 
     private LocalDateTime dateCmd;
 
@@ -32,11 +34,15 @@ public class Commande {
     private String buyer_email;
     private String buyer_address;
 
-    private Float tax;
+    private Long tax;
+    private Float somme_volume;
 
     private Integer nbProd;
-    private Float total_price;
-    private float total_weight ;
+    private Long total_price;
+    private String currency;
+    private float total_weight;
+
+    private String les_produits ;
 
     private Boolean archive;
 
@@ -46,22 +52,20 @@ public class Commande {
     private Etat etat;//1 bch twali livraison
 
     @Enumerated(EnumType.STRING)
-    private Payment_Mode payment_mode;//1 bch twali livraison
+    private Payment_Mode payment_mode;
 
+    private String methode;
 
 
     @ManyToOne
     @JsonIgnore
     @ToString.Exclude
     private CART Commande_cart;
-@ManyToMany(cascade = CascadeType.ALL)
-    private Set<Livraison> Livraison_commande;
 
 
-   /* @ManyToOne
+    @ManyToMany(cascade = CascadeType.ALL)
     @JsonIgnore
-    @ToString.Exclude
-    private Livraison Livraison_commande;*/
+    private Set<Livraison> Livraison_commande;
 
 
 }

@@ -2,11 +2,9 @@ package com.example.cocomarket.Controller;
 
 import com.example.cocomarket.Interfaces.IUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 @RestController
 public class User_Controller {
     @Autowired
@@ -18,5 +16,9 @@ public class User_Controller {
 
         iu.assignusertodelivery(LId,UId);
     }
+
+
+
+
 
 }

@@ -26,6 +26,7 @@ public class User {
     private String Assosiation_info;
     private String FilesImg;
     private String img;
+    private String adresseuser;
 
     @OneToMany(mappedBy = "userQuestions" ,cascade = CascadeType.ALL)
     private Set<Question> Questions;

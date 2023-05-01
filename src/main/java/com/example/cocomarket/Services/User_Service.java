@@ -22,26 +22,12 @@ public class User_Service implements IUser {
 
     @Autowired
     Cart_Repository cr ;
-    @Autowired
-    Commande_Repository comr ;
+
     @Autowired
     Livraison_Repository lr;
 
-    @Override
-    public void traiter_commande(Integer idcommande){
-        Commande commande = comr.findById(idcommande).orElse(null);
-        if(commande.getEtat()== Etat.WAITING){
-            //accepter
-            //send mail avec les details
-            //affectation livreur
-            commande.setEtat(Etat.VALIDATED);
 
-            //refuser
-            //send mail avec motif de refus
-            commande.setEtat(Etat.REFUSED);
-        }
 
-    }
 
     @Override
     public void assignusertodelivery(Integer LId, Integer UId) {
