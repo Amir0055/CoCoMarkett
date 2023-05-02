@@ -1,16 +1,13 @@
 package com.example.cocomarket.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+ import com.fasterxml.jackson.annotation.JsonIgnore;
+ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+ import java.util.*;
 
 @Entity
 @Getter
@@ -37,22 +34,34 @@ public class User implements UserDetails {
     private Boolean enabled;
     private Integer nbr_tentatives;
     private Boolean availability;
-    @OneToMany(mappedBy = "userQuestions" ,cascade = CascadeType.ALL)
-    private Set<Question> Questions;
+    private Date sleep_time;
+    private String num_phone;
+    @OneToMany(mappedBy = "userPublication" ,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Publication> publications;
     @OneToMany(cascade = CascadeType.ALL)
-    private Set<Response> Responses;
+    @JsonIgnore
+    private Set<Comentaire> Respons;
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<MSG> MSGs;
     @OneToMany(mappedBy = "userShop")
+    @JsonIgnore
     private Set<Shop> Shops;
     @OneToMany(mappedBy = "userKoffa")
+    @JsonIgnore
     private Set<Koffa> Koffas;
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private CART cart;
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Raiting_Product> raiting_products;
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Vehicule car;
+    private String adresseuser;
+
 
     @OneToMany(mappedBy = "UserAuth" ,fetch = FetchType.EAGER)
 
