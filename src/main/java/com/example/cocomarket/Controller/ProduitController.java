@@ -15,6 +15,7 @@ import java.util.Map;
 @CrossOrigin(origins = "*",allowedHeaders = "*")
 @RestController
 @RequestMapping("/produits")
+
 public class ProduitController {
 
     @Autowired

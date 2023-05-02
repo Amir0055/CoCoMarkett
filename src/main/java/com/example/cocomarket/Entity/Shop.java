@@ -19,7 +19,6 @@ public class Shop {
     @NonNull
     private Integer id;
     private String adresse;
-
     private String nom;
     private String img;
     private String description;

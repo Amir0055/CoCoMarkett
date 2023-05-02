@@ -1,6 +1,9 @@
 package com.example.cocomarket.Services;
 
-import com.example.cocomarket.Entity.*;
+import com.example.cocomarket.Entity.Categorie;
+import com.example.cocomarket.Entity.Produit;
+import com.example.cocomarket.Entity.Raiting_Product;
+import com.example.cocomarket.Entity.Shop;
 import com.example.cocomarket.Interfaces.IProduit;
 import com.example.cocomarket.Repository.Categorie_Repository;
 import com.example.cocomarket.Repository.Produit__Repository;
@@ -11,40 +14,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class Produit__Service implements IProduit {
-    @Autowired
-    private Produit__Repository produitRepository;
-
-    public Produit createProduit(Produit produit) {
-        return produitRepository.save(produit);
-    }
-
-       public Optional<Produit> getProduitById(Integer id) {
-            return Optional.ofNullable(produitRepository.findById(id).orElse(null));
-    }
-
-    public List<Produit> getAllProduits() {
-        return produitRepository.findAll();
-    }
-
-    public Produit updateProduit(Produit produit) {
-        return produitRepository.save(produit);
-    }
-
-    public void deleteProduitById(Integer id) {
-        produitRepository.deleteById(id);
-    }
-
-    @Autowired
+@Autowired
     Produit__Repository prorepo ;
 
-    @Autowired
+@Autowired
     Categorie_Repository cr ;
 
-    @Autowired
+@Autowired
     Shop_Repository Shoprepo ;
 
     @Autowired
@@ -60,8 +39,8 @@ public class Produit__Service implements IProduit {
         Produit produit = prorepo.findById(idProduit).orElse(null) ;
         Shop shop = Shoprepo.findById(idShop).orElse(null);
         Categorie categorie = cr.findById(idCateg).orElse(null);
-        produit.setCategories(categorie);
-        produit.setShopes(shop);
+        produit.setCategorie(categorie);
+        produit.setShop(shop);
         prorepo.save(produit);
 
     }
@@ -75,36 +54,38 @@ public class Produit__Service implements IProduit {
         //produit.getRaiting_products().add(R) ;
         System.out.println("♦♦♦♦♦♦♦♦♦♦"+R);
         System.out.println("♦♦♦♦♦♦♦♦♦♦"+produit);
-        produit.getRaiting_prod().add(R) ;
+        produit.getRaiting_products().add(R) ;
         prorepo.save(produit) ;
 
-    }
+ }
+
+
 
     @Override
     public String SumRatting(Integer id , Integer id2 ) {
 
         int a=0;
         int b=0 ;
-        Produit p=  prorepo.findById(id).orElse(null);
-        Produit p2= prorepo.findById(id2).orElse(null) ;
+      Produit p=  prorepo.findById(id).orElse(null);
+      Produit p2= prorepo.findById(id2).orElse(null) ;
 
-        for (Raiting_Product j: p2.getRaiting_prod()) {
-            b += j.getScore();
-        }
+      for (Raiting_Product j: p2.getRaiting_products()) {
+          b += j.getScore();
+      }
 
-        for(Raiting_Product i:p.getRaiting_prod()){
-            a+=i.getScore();
-        }
+      for(Raiting_Product i:p.getRaiting_products()){
+          a+=i.getScore();
+      }
         System.out.println("♦♦♦♦♦♦♦♦♦♦"+b);
 
         if ( a>b )
 
 
 
-            return ("Produit 1 Better than B " )
-                    ;
-        else
-            return (" Produit 2 Better than Produit 1 ") ;
+        return ("Produit 1 Better than B " )
+                ;
+      else
+          return (" Produit 2 Better than Produit 1 ") ;
 
     }
 
@@ -115,8 +96,8 @@ public class Produit__Service implements IProduit {
 
         Categorie cate=  cr.findById(idCateg).orElse(null) ;
         for ( Produit i : p )
-        { if ( i.getCategories()==cate )
-            p2.add(i) ;
+        { if ( i.getCategorie()==cate )
+        p2.add(i) ;
 
         }
         return p2;
@@ -136,6 +117,9 @@ public class Produit__Service implements IProduit {
     }
 
 
+    public List<Produit> getAllProduits() {
+        return prorepo.findAll();
+    }
 
 
 /*
@@ -172,11 +156,6 @@ public class Produit__Service implements IProduit {
 
         return
         Shoprepo.findAll();*/
-
-
-
-
-
 
 
 
