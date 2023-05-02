@@ -1,18 +1,17 @@
 package com.example.cocomarket.Entity;
 
-import java.time.LocalDate;
-import java.util.Set;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Set;
 
 
 
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Contrat {
@@ -25,6 +24,8 @@ public class Contrat {
     private LocalDate dateDebutContrat;
     private LocalDate dateFinContrat;
     private Boolean archive;
-    @OneToMany(mappedBy = "Contrat_shop")
+    @JsonIgnore
+    @OneToMany(mappedBy = "Contrat_shop",cascade = CascadeType.ALL)
     private Set<Shop> Shopes_Contrats;
+
 }

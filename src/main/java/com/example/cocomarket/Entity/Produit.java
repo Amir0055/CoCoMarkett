@@ -1,13 +1,12 @@
 package com.example.cocomarket.Entity;
 
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 
@@ -41,16 +40,30 @@ public class Produit {
   @ManyToMany(cascade = CascadeType.ALL)
     private Set<Catalogue> Catalogues;
 
-
+@JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     private Categorie categorie;
     @JsonIgnore
-
     @ManyToOne(cascade = CascadeType.ALL)
     private Shop shop;
-
+@JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Raiting_Product> raiting_products ;
+
+    //@OneToMany(cascade = CascadeType.ALL)
+   // private Set<ImageData> image ;
+    @OneToMany(mappedBy = "produit",cascade = CascadeType.ALL)
+    private Set<ImageData> image ;
+
+
+    @ManyToMany(mappedBy = "produits")
+    private Set<Catalogue> catalogues = new HashSet<>();
+
+    private Integer quantiteVendue;
+
+    private Integer pourcentagePromotion;
+
+
 
 
 }

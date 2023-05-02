@@ -1,20 +1,13 @@
 package com.example.cocomarket.Services;
 
+import com.example.cocomarket.Entity.Contrat;
 import com.example.cocomarket.Entity.Shop;
 import com.example.cocomarket.Interfaces.IShop;
+import com.example.cocomarket.Repository.Contrat_Repository;
 import com.example.cocomarket.Repository.Shop_Repository;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageConfig;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -22,11 +15,13 @@ public class Shop_Service implements IShop {
     @Autowired
 Shop_Repository Shoprepo ;
 
+    @Autowired
+    Contrat_Repository contratrepo ;
+
 
     @Override
     public List<Shop> AfficherLesShop() {
-        return
-        Shoprepo.findAll();
+        return Shoprepo.findAll();
     }
 
     @Override
@@ -60,6 +55,20 @@ int width ;
         return pngData;
         */
         return Shoprepo.save(shp);
+    }
+
+    @Override
+    public void AddContratToShop(Integer idcontrat ,Integer idshop) {
+
+
+        Shop shop = Shoprepo.findById(idshop).orElse(null) ;
+        Contrat c = contratrepo.findById(idcontrat).orElse(null) ;
+        //produit.getRaiting_products().add(R) ;
+        System.out.println("♦♦♦♦♦♦♦♦♦♦"+c);
+        System.out.println("♦♦♦♦♦♦♦♦♦♦"+shop);
+        shop.setContrat_shop(c);  ;
+        Shoprepo.save(shop) ;
+
     }
 
 }

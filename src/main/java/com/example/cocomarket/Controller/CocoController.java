@@ -1,13 +1,8 @@
 package com.example.cocomarket.Controller;
 
 import com.example.cocomarket.Entity.Catalogue;
-import com.example.cocomarket.Entity.Shop;
 import com.example.cocomarket.Interfaces.ICatalogue;
-import com.example.cocomarket.Interfaces.IShop;
-import com.example.cocomarket.Services.Catalogue_Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +10,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/catalogue")
+@CrossOrigin(origins= "/*")
+
 public class CocoController {
 
     @Autowired

@@ -11,6 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/koffas")
+@CrossOrigin(origins= "/*")
+
 public class KoffaController {
     @Autowired
     private Koffa_Service koffaService;

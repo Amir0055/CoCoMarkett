@@ -9,12 +9,11 @@ import com.example.cocomarket.Repository.Categorie_Repository;
 import com.example.cocomarket.Repository.Produit__Repository;
 import com.example.cocomarket.Repository.Rainting_Product_Repository;
 import com.example.cocomarket.Repository.Shop_Repository;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class Produit__Service implements IProduit {
@@ -60,6 +59,8 @@ public class Produit__Service implements IProduit {
 
  }
 
+
+
     @Override
     public String SumRatting(Integer id , Integer id2 ) {
 
@@ -75,17 +76,40 @@ public class Produit__Service implements IProduit {
       for(Raiting_Product i:p.getRaiting_products()){
           a+=i.getScore();
       }
-      if ( a>b )
+        System.out.println("♦♦♦♦♦♦♦♦♦♦"+b);
 
-       return ("Produit 1 Better than B ") ;
+        if ( a>b )
+
+
+
+        return ("Produit 1 Better than B " )
+                ;
       else
           return (" Produit 2 Better than Produit 1 ") ;
+
+    }
+
+    ////////
+    public List<Produit> Recomendation(Integer idproduit , Integer idCateg ) {
+        List<Produit> p= prorepo.findAll();
+        List<Produit> p2 = new ArrayList<>();
+
+        Categorie cate=  cr.findById(idCateg).orElse(null) ;
+        for ( Produit i : p )
+        { if ( i.getCategorie()==cate )
+        p2.add(i) ;
+
+        }
+        return p2;
 
     }
 
 
 
 
+    public List<Produit> getAllProduits() {
+        return prorepo.findAll();
+    }
 
 
 /*

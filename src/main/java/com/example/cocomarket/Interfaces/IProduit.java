@@ -1,10 +1,8 @@
 package com.example.cocomarket.Interfaces;
 
 import com.example.cocomarket.Entity.Produit;
-import com.example.cocomarket.Entity.Raiting_Product;
-import org.hibernate.mapping.List;
 
-import java.util.Set;
+import java.util.List;
 
 public interface IProduit {
 
@@ -14,6 +12,9 @@ public interface IProduit {
 
      void AddRaitingtoProduit(Integer idRaiting, Integer idProduit) ;
      String  SumRatting(Integer id , Integer id2);
+
+    public List<Produit> getAllProduits() ;
+    public List<Produit> Recomendation(Integer idproduit , Integer idCateg ) ;
 
 
 

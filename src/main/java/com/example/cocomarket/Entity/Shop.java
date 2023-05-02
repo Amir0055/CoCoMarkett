@@ -1,9 +1,6 @@
 package com.example.cocomarket.Entity;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +19,7 @@ public class Shop {
     @NonNull
     private Integer id;
     private String adresse;
+
     private String nom;
     private String img;
     private String description;
@@ -29,8 +27,9 @@ public class Shop {
     private Integer BIC;
     @Enumerated(EnumType.STRING)
     private Status traitement;
-    private String qrCodeShop ;
-    private String url;
+    @Lob
+    @Column(name = "qr_code_shop", columnDefinition="VARBINARY(5000)")
+    private byte[] qrCodeShop;    private String url;
 
    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
