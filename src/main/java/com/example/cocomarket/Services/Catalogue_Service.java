@@ -5,23 +5,12 @@ import com.example.cocomarket.Entity.Produit;
 import com.example.cocomarket.Interfaces.ICatalogue;
 import com.example.cocomarket.Repository.Catalogue_Repository;
 import com.example.cocomarket.Repository.Produit__Repository;
-import com.example.cocomarket.Repository.User_Repository;
-import com.example.cocomarket.config.EmailSenderService;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-
-
-import org.apache.naming.factory.SendMailFactory;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+
+import javax.persistence.EntityNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,12 +20,11 @@ public class Catalogue_Service implements ICatalogue {
     @Autowired
     private Catalogue_Repository catalogueRepository;
     @Autowired
+
     private Produit__Repository produitRepository;
 
-    @Autowired
-    private EmailSenderService senderService;
-    @Autowired
-    private User_Repository user_Repository;
+
+
 
 
     public List<Catalogue> getAllCatalogues() {
@@ -47,34 +35,13 @@ public class Catalogue_Service implements ICatalogue {
         return catalogueRepository.findById(id);
     }
 
-    public Catalogue addCatalogue(Catalogue catalogue) throws IOException, WriterException, com.google.zxing.WriterException {
-        catalogue = catalogueRepository.save(catalogue);
-        byte[] qrCode = generateQRCode(catalogue);
-        catalogue.setQrCode(qrCode);
+    public Catalogue addCatalogue(Catalogue catalogue) {
         return catalogueRepository.save(catalogue);
-    }
-
-    public byte[] generateQRCode(Catalogue catalogue) throws WriterException, IOException, com.google.zxing.WriterException {
-        int width = 256;
-        int height = 256;
-        String charset = "UTF-8";
-        int margin = 1;
-
-        String data = "catalogue:" + catalogue.getId();
-
-        QRCodeWriter writer = new QRCodeWriter();
-        BitMatrix matrix = writer.encode(data, com.google.zxing.BarcodeFormat.QR_CODE, width, height);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        MatrixToImageWriter.writeToStream(matrix, "PNG", baos);
-        return baos.toByteArray();
     }
 
     public Catalogue updateCatalogue(Catalogue catalogue) {
         return catalogueRepository.save(catalogue);
     }
-
-
 
     public void deleteCatalogueById(Integer id) {
         catalogueRepository.deleteById(id);
@@ -95,8 +62,6 @@ public class Catalogue_Service implements ICatalogue {
             catalogueRepository.save(catalogue);
             produitRepository.save(produit);
         }
-
-
     }
 
     public void removeProduitFromCatalogue(Integer catalogueId, Integer produitId) {
@@ -112,6 +77,7 @@ public class Catalogue_Service implements ICatalogue {
         }
     }
 
+
     public Catalogue createTop50Catalogue() {
         List<Produit> top50Produits = produitRepository.findTop50ByOrderByQuantiteVendueDesc();
         Catalogue catalogue = new Catalogue();
@@ -121,24 +87,19 @@ public class Catalogue_Service implements ICatalogue {
         Set<Produit> produits = new HashSet<>(top50Produits);
         catalogue.setProduits(produits);
 
-        senderService.sendSimpleEmail("hamza.amdouni@esprit.tn","kjnjkn","kjjkhjk");
-
-
-        /*byte[] qrCode = generateQRCode(catalogue);
-        catalogue.setQrCode(qrCode);*/
         return catalogueRepository.save(catalogue);
     }
 
-
-
-    public void createTopRatedProductsCatalogue() {
+    public Catalogue createTopRatedProductsCatalogue() {
         // Récupérer les 5 produits les mieux notés
+
         List<Produit> topRatedProducts = produitRepository.findAll()
                 .stream()
                 .filter(p -> p.getRaiting_prod() != null && !p.getRaiting_prod().isEmpty())
                 .sorted(Comparator.comparing(p -> -getAverageScore(p)))
-                .limit(2)
+                .limit(10)
                 .collect(Collectors.toList());
+
 
         // Créer le catalogue contenant les 5 produits les mieux notés
         Catalogue topRatedProductsCatalogue = new Catalogue();
@@ -147,10 +108,8 @@ public class Catalogue_Service implements ICatalogue {
         topRatedProductsCatalogue.setImg("https://example.com/top-rated-products.png");
         topRatedProductsCatalogue.setProduits(new HashSet<>(topRatedProducts));
 
-       /* byte[] qrCode = generateQRCode(topRatedProductsCatalogue);
-        topRatedProductsCatalogue.setQrCode(qrCode);
-        // Enregistrer le catalogue dans la base de données*/
-        catalogueRepository.save(topRatedProductsCatalogue);
+        // Enregistrer le catalogue dans la base de données
+        return catalogueRepository.save(topRatedProductsCatalogue);
     }
 
     private Double getAverageScore(Produit produit) {
@@ -160,24 +119,19 @@ public class Catalogue_Service implements ICatalogue {
                 .orElse(0.0);
     }
 
-    public Catalogue createLatestProductsCatalogue()  {
+    public Catalogue createLatestProductsCatalogue() {
         int last = catalogueRepository.findLastCatalogueId();
         int first = catalogueRepository.findFirstCatalogueId();
         Catalogue catalogue = new Catalogue();
         catalogue.setNom("Dernières nouveautés");
         catalogue.setDescription("Les derniers produits ajoutés au site "+ last + " "+ first );
-        catalogue.setImg("https://example.com/images/latest-products.jpg");
-
+        catalogue.setImg("file:///C:\\Users\\hamza\\Desktop\\New folder (2)\\FrontCoCo\\src\\assets\\FRONT\\images/visa.png");
+        List<Produit> pList=produitRepository.findAll();
+        //System.out.println("Status  :"+pList[0]);
         List<Produit> latestProducts = produitRepository.findTop10ByOrderByDatePublicationDesc();
         catalogue.setProduits(new HashSet<>(latestProducts));
 
-
-        /*byte[] qrCode = generateQRCode(catalogue);
-        catalogue.setQrCode(qrCode);*/
-
         return catalogueRepository.save(catalogue);
-
-
     }
 
     public Catalogue createPromoCatalogue() {
@@ -186,7 +140,6 @@ public class Catalogue_Service implements ICatalogue {
         catalogue.setDescription("Les produits en promo");
         catalogue.setImg("https://example.com/images/latest-products.jpg");
 
-
         List<Produit> promoProducts = produitRepository.findByPourcentagePromotionGreaterThan(0);
 
         catalogue.setProduits(new HashSet<>(promoProducts));
@@ -194,7 +147,7 @@ public class Catalogue_Service implements ICatalogue {
         return catalogueRepository.save(catalogue);
     }
 
-    public Catalogue createPromoCatalogue(String nom, String description, String img, Integer pourcentagePromotion) {
+    /*public Catalogue createPromoCatalogue(String nom, String description, String img, Integer pourcentagePromotion) {
 
         Catalogue catalogue = new Catalogue();
         catalogue.setNom(nom);
@@ -215,8 +168,78 @@ public class Catalogue_Service implements ICatalogue {
             produit.setPrixPromotion(nouveauPrix);
         }
 
+
         return catalogueRepository.save(catalogue);
     }
+*/
+    public List<Produit> getProduitsByFilter1(Integer catalogueId, String filter) {
+        Optional<Catalogue> catalogue = catalogueRepository.findById(catalogueId);
+
+        if (catalogue.isPresent()) {
+            List<Produit> produits = (List<Produit>) catalogue.get().getProduits();
+            List<Produit> filteredProduits = new ArrayList<>();
+
+            // Appliquer le filtre sur les produits
+            for (Produit produit : produits) {
+                if (produit.getNom().toLowerCase().contains(filter.toLowerCase())) {
+                    filteredProduits.add(produit);
+                }
+            }
+
+            return filteredProduits;
+        } else {
+            throw new ResourceNotFoundException("Catalogue with id " + catalogueId + " not found.");
+        }
+    }
+
+    public List<Produit> getProduitsByFilter(Integer catalogueId, String filter) {
+        Catalogue catalogue = catalogueRepository.findById(catalogueId)
+                .orElseThrow(() -> new ResourceNotFoundException("Catalogue with id " + catalogueId + " not found."));
+
+        return catalogue.getProduits().stream()
+                .filter(produit -> produit.getNom().toLowerCase().contains(filter.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Produit> getProduitsByFilter2(int catalogueId, String filter) {
+        Catalogue catalogue = catalogueRepository.findById(catalogueId).get();
+        if(catalogue == null) {
+            throw new EntityNotFoundException("Catalogue with id " + catalogueId + " not found");
+        }
+        List<Produit> produits = new ArrayList<>(catalogue.getProduits());
+        List<Produit> filteredProduits = new ArrayList<>();
+        for (Produit produit : produits) {
+            // Vérifie si le produit contient le filtre dans son nom ou sa description
+            if (produit.getNom().toLowerCase().contains(filter.toLowerCase()) ||
+                    produit.getDescription().toLowerCase().contains(filter.toLowerCase())) {
+                filteredProduits.add(produit);
+            }
+            // Vérifie si le produit contient le filtre dans une de ses caractéristiques
+            else {
+                boolean containsFilter = false;
+
+                if (produit.getShopes() != null && produit.getShopes().getNom().toLowerCase().contains(filter.toLowerCase())) {
+                    containsFilter = true;
+                }
+                if (produit.getPrix() != null && produit.getPrix().toString().toLowerCase().contains(filter.toLowerCase())) {
+                    containsFilter = true;
+                }
+                if (produit.getQuantiteVendue() != null && produit.getQuantiteVendue().toString().toLowerCase().contains(filter.toLowerCase())) {
+                    containsFilter = true;
+                }
+                if (produit.getPourcentagePromotion() != null && produit.getPourcentagePromotion().toString().toLowerCase().contains(filter.toLowerCase())) {
+                    containsFilter = true;
+                }
+
+                if (containsFilter) {
+                    filteredProduits.add(produit);
+                }
+            }
+        }
+        return filteredProduits;
+    }
+
+
 
 
 

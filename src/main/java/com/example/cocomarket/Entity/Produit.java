@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class Produit {
     private String description;
     private Long prix;
     private Float weight;
+    private Float volume ;
     private Boolean EtatsProduit;//mawjoud ou non
     @Enumerated(EnumType.STRING)
     private Status status;//ywefe9 3lih lbaye3 bch ybi3ou ou non//par default Null

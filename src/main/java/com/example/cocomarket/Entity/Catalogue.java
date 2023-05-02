@@ -1,4 +1,5 @@
 package com.example.cocomarket.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,10 +21,11 @@ public class Catalogue {
     private String nom;
     private  String description;
     private   String img;
-    private byte[] QrCode;
+
 
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name = "catalogue_produit",
             joinColumns = @JoinColumn(name = "catalogue_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "produit_id", referencedColumnName = "id"))

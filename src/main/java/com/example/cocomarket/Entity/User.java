@@ -1,5 +1,6 @@
 package com.example.cocomarket.Entity;
 
+ import com.fasterxml.jackson.annotation.JsonIgnore;
  import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,23 +35,33 @@ public class User implements UserDetails {
     private Integer nbr_tentatives;
     private Boolean availability;
     private Date sleep_time;
-    private long num_phone;
+    private String num_phone;
     @OneToMany(mappedBy = "userPublication" ,cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Publication> publications;
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Comentaire> Respons;
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<MSG> MSGs;
     @OneToMany(mappedBy = "userShop")
+    @JsonIgnore
     private Set<Shop> Shops;
     @OneToMany(mappedBy = "userKoffa")
+    @JsonIgnore
     private Set<Koffa> Koffas;
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private CART cart;
     @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Raiting_Product> raiting_products;
     @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private Vehicule car;
+    private String adresseuser;
+
 
     @OneToMany(mappedBy = "UserAuth" ,fetch = FetchType.EAGER)
 
