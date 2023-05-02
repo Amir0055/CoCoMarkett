@@ -18,4 +18,10 @@ public class Raiting_Product {
     private Integer id;
     private String feedBack;
     private Integer Score;
+
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private Produit product;
 }
